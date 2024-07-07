@@ -84,6 +84,49 @@ Another metric that jumped out was the E-value of 0. The E-value (Expect Value) 
 
 In addition to the E-value, you can also use the bit score to assess the significance of a sequence alignment between a query and a database sequence during a BLAST search. The bit score provides a numeric representation of the quality and strength of the alignment, considering factors such as the length of the alignment and the similarity between the sequences. A higher bit score indicates a more significant alignment, and it reflects the degree of similarity and the quality of the alignment between the query and the database sequence. The bit score is also normalized, allowing for comparisons between searches with different database sizes. Generally, a bit score of 1045 is considered very high and indicates a highly significant match with strong similarity between the query and the database sequence, which makes sense given the very low E-value and the fact that we are comparing two sequences from the same virus strain, collected roughly forty years apart (*).
 
+### Step 6: BASH Scripting (Optional)
+
+The code provided in steps 1-5 above a straightforward method to perform a BLAST search for a specific query against a database. This method works well if you only need to perform this BLAST search once. However, creating a reusable BASH script is beneficial if you plan to perform BLAST searches frequently with different protein IDs. The script simplifies the process by automating repetitive tasks, ensuring consistency, and reducing the risk of human error.
+
+In the code block below, I'll provide you with a BASH script you can use to automate the entire workglow in steps 1-5, from fetching sequences, to creating a BLAST database, and displaying results. In this example, I will call my BASH script BLAST.sh, and to begin writing this script I will type the following command in my terminal ```nano BLAST.sh```. 
+```
+#!/bin/bash
+
+fetch_and_create_db() {
+    local protein_id=$1
+    local fasta_file="${protein_id}.fasta"
+    local db_name="${protein_id}_db"
+    esearch -db protein -query "$protein_id" | efetch -format fasta > "$fasta_file"
+    makeblastdb -in "$fasta_file" -dbtype prot -out "$db_name"
+}
+
+perform_blast() {
+    local db_protein_id=$1
+    local query_protein_id=$2
+    local result_file="result.out"
+    query_fasta_file="${query_protein_id}.fasta"
+    esearch -db protein -query "$query_protein_id" | efetch -format fasta > "$query_fasta_file"
+    blastp -db "${db_protein_id}_db" -query "$query_fasta_file" -out "$result_file" -outfmt 7
+    cat "$result_file"
+}
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <DB_protein_ID> <query_protein_ID>"
+    exit 1
+fi
+
+DB_protein_ID=$1
+query_protein_ID=$2
+
+fetch_and_create_db "$DB_protein_ID"
+perform_blast "$DB_protein_ID" "$query_protein_ID"
+```
+Now, after saving my script as ```BLAST.sh``` and closing my nano text editor, I can make the script executable and run it with two protein ID's as arguments with the following code:
+```
+chmod +x BLAST.sh
+./BLAST.sh ABP49492 BDP39085
+```
+
 #
 (*) Interestingly, it’s possible to query the protein sequence coding for the hemagglutinin (HA) protein in the Influenza A virus each year from the mid-1980s until today, comparing them all to the same reference sequence. If we were to perform this type of analysis, we’d likely see the % identity declining year after year, allowing us to track the rate and degree of virus evolution over time. This same type of analysis could be used to track and compare different strains of SARS-CoV-2, among other viruses.
 
