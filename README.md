@@ -1,2 +1,25 @@
-# BLAST
-A DIY Guide To BLAST Tools For Sequence Alignment
+# 🧬 BLAST - The Biological Search Engine
+
+BLAST (basic local alignment search tool) is a widely used bioinformatics tool for comparing biological sequences and findings regions of local similarity or homology. At its core, BLAST works by comparing a query (i.e., input) DNA, RNA, and protein sequence against a database of known sequences. The output of a BLAST search is typically a list of sequence alignments, each scored and ranked based on the degree of similarity and their statistical significance, providing researchers with valuable information about potential evolutionary relationships or functional similarities.
+
+Think of BLAST as the Google for DNA, RNA, and protein sequences—a search engine designed to pinpoint reference sequences closely matching your query. Just as there are various search engines, BLAST comes in multiple versions, each offering slightly different results. It's akin to comparing a Google and Bing search — the same query may yield different outcomes.
+
+Additionally, like any search engine, there are functional constraints to how long or short a query can be for you to get a meaningful answer. For example, let's say you wanted to get the cliff notes for Leo Tolstoy's War and Peace. Googling the word "War" or entering five paragraphs from the book are unlikely to yield a meaningful result. The same principle applies to BLAST, and there's a whole school of thought around optimizing queries to produce the most meaningful outcomes.
+
+Importantly, BLAST is a local alignment search tool that looks for partial matches between query sequences and those in a reference database. As a result, BLAST introduces the risk of false discoveries due to the vast data available and the shared ancestry among all forms of life. Thus, It's crucial to discern genuine alignments resulting from relatedness rather than mere chance. This becomes especially pertinent when querying shorter sequences against extensive reference databases, where random chance alignments are more prevalent. In essence, BLAST is a powerful tool, but precision and understanding its intricacies are key to extracting meaningful insights.
+
+## 🧬 How Is BLAST Used In Biotech?
+
+BLAST is an essential tool for various applications in molecular biology and genomics. One common use is annotating newly sequenced genomes, where BLAST helps identify genes and predict their functions by comparing the genomic sequences to a database of known genes. Using BLAST in this manner is akin to trying to understand the meaning of a new language by comparing it to a dictionary of languages you already know. This is a common practice in the biotech industry, where researchers may sequence the genome of a newly discovered microorganism with potential applications in medicine or industry. By using BLAST to compare its genes to known genes, they can quickly identify which genes are responsible for specific functions, such as producing useful enzymes or potential drug targets.
+
+Additionally, BLAST is employed in identifying homologous (i.e., similar) genes or proteins across different species, aiding in understanding evolutionary relationships. For example, in the biotech industry, BLAST is often used to find genes in bacteria that are similar to human genes. This can be crucial for developing medications or therapies, as similarities may indicate shared functions or pathways that can be targeted to treat diseases.
+
+Furthermore, BLAST helps researchers find common patterns or motifs in protein sequences in functional genomics, like identifying recurring themes in a story. These patterns often indicate important functions, and by studying them, scientists can better understand how proteins work. Additionally, in the biotech industry, identifying conserved motifs across different species can help researchers design drugs specifically targeting those motifs, offering a more precise and effective treatment for various diseases.
+
+Finally, BLAST can be used in clinical research and diagnostics, where it helps identify similarities between pathogenic sequences and known sequences associated with diseases. In a sense, using BLAST for this purpose is like finding a matching fingerprint at a crime scene—it helps link genetic patterns to specific diseases. For example, In a clinical setting, researchers may use BLAST to compare the patient's genetic material to a database of known disease-related sequences if a patient has a mysterious illness. This can lead to a faster and more accurate diagnosis, enabling healthcare professionals to tailor treatments based on the patient's specific needs.
+
+In summary, BLAST is a versatile bioinformatics tool that is pivotal in elucidating biological relationships, predicting gene functions, and aiding in various genomic and proteomic analyses. Its ability to efficiently compare sequences and provide meaningful alignments has made it an indispensable resource for researchers across diverse fields of biology.
+
+## 🧬 A DIY Guide To Using BLAST 
+
+So far, we’ve covered what BLAST is, how it works, and how its used in research and the biotech industry. In this section, I will provide an end-to-end DIY guide to performing sequence alignment with BLAST. Specifically, I’ll show you how to use BLAST to perform local sequence alignment and see how a coding sequence for the hemagglutinin (HA) protein in the Influenza A virus has changed from the early 1980’s to modern day.
