@@ -30,7 +30,7 @@ Before using BLAST, you first need to obtain a reference sequence, which is a we
 
 Obtaining reference sequences involves accessing public databases or collaborating with experts in the field. For example, you can use NCBI’s command-line tools, such as esearch and efetch, to obtain reference sequences from GenBank. In the example code below, I’ll show you how to search and fetch reference data by a GenBank accession number, which is the unique identifier for a sequence record in the GenBank database:
 
-```
+```bash
 esearch -db protein -query "ABP49492" | efetch -format fasta > ABP49492.fasta
 ```
 
@@ -42,14 +42,14 @@ The ```efetch``` command is another command-line utility that retrieves records 
 
 After obtaining a reference genome or sequence, the next step is to reformat it for use with BLAST by making a BLAST database. A BLAST database is a preprocessed and indexed collection of biological sequences optimized for use with BLAST, enabling efficient and rapid sequence similarity searches. In the sample code below, I’ll demonstrate how to make a BLAST database using the makeblastdb command-line tool:
 
-```
+```bash
 makeblastdb -in ABP49492.fasta -dbtype prot -out ABP49492_db
 ```
 The ```makeblastdb``` command is part of the BLAST tool suite and is used to create a BLAST database. After calling the makeblastdb command, the code ```-in ABP49492.fasta``` specifies the input file from which the database will be created. In this case, the input file contains a protein sequence in a FASTA format. Then, the code ```-dbtype prot``` specifies the type of the database to be created. In this case, prot indicates that the database will contain protein sequences. There's also an option for nucleotide sequences (-dbtype nucl). Finally, the code ```-out ABP49492_db``` specifies the name of the output database, named ABP49492_db, which is now optimized for efficient searches using various BLAST tools.
 
 ### Step 3: Obtain Query Data
 The next step is to obtain the genetic sequence you want to analyze, known as the query sequence. This could be a newly sequenced genome or a specific gene of interest. As with your reference sequence, you can use NCBI’s command-line tools to obtain your query sequence. However, you must ensure the query sequence is properly formatted for compatibility with BLAST. In the code below, I’ll show you how to search and fetch query data using a GenBank accession number:
-```
+```bash
 esearch -db protein -query "BDP39085" | efetch -format fasta > BDP39085.fasta
 ```
 The code above is used to search for a protein sequence with the accession number BDP39085, corresponding to a protein sequence coding for the hemagglutinin (HA) protein in the Influenza A virus sequenced in 2022. Because the code above follows the same format as in step 1, I won’t spend additional time breaking it down step by step. However, if you have questions about this code block, you can let me know in the comments section below.
@@ -65,11 +65,11 @@ In our case we have a protein reference database, protein query sequence, and pr
 ### Step 5: Query The BLAST Database
 
 The final step is to query the BLAST database using our selected BLAST tool (blastp). This step involves searching for similarities between the query sequence obtained in step 3 and the reference sequence stored in the BLAST database created in step 2. In the code block below, I’ll demonstrate how to query our BLAST database:
-```
+```bash
 blastp -db ABP49492_db -query BDP39085.fasta -out result.out -outfmt 7
 ```
 The code above uses the ```blastp``` command to perform a protein-protein sequence comparison by querying a BLAST database named ```ABP49492_db``` with a protein sequence stored in the FASTA file called ```BDP39085.fasta```. The code ```-out result.out``` then specifies the output file where the results of the BLAST search will be saved. In this case, the results will be stored in a file named ```result.out```. Finally, the code ```-outfmt 7``` specifies the output format for the results. In this case, the format is set to "7," which is the tabular format, providing a table-like output that includes various information about the alignments, such as sequence identifiers and alignment scores.
-```
+```bash
 cat result.out
 ```
 Finally, the code block above can be executed to view the results from the BLAST search, as demonstrated below:
@@ -89,7 +89,7 @@ In addition to the E-value, you can also use the bit score to assess the signifi
 The code provided in steps 1-5 above a straightforward method to perform a BLAST search for a specific query against a database. This method works well if you only need to perform this BLAST search once. However, creating a reusable BASH script is beneficial if you plan to perform BLAST searches frequently with different protein IDs. The script simplifies the process by automating repetitive tasks, ensuring consistency, and reducing the risk of human error.
 
 In the code block below, I'll provide you with a BASH script you can use to automate the entire workglow in steps 1-5, from fetching sequences, to creating a BLAST database, and displaying results. In this example, I will call my BASH script BLAST.sh, and to begin writing this script I will type the following command in my terminal ```nano BLAST.sh```. 
-```
+```bash
 #!/bin/bash
 
 fetch_and_create_db() {
@@ -122,7 +122,7 @@ fetch_and_create_db "$DB_protein_ID"
 perform_blast "$DB_protein_ID" "$query_protein_ID"
 ```
 Now, after saving my script as ```BLAST.sh``` and closing my nano text editor, I can make the script executable and run it with two protein ID's as arguments with the following code:
-```
+```bash
 chmod +x BLAST.sh
 ./BLAST.sh ABP49492 BDP39085
 ```
